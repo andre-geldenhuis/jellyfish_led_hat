@@ -1,7 +1,12 @@
 
 int blue = 9;    // LED connected to digital pin 9
-int red = 10;
-int green = 11;
+int red =10;
+int green =11;
+
+int bluein = 2;
+int redin = 1;
+int greenin = 0;
+
 
 static float redinc=0.0011/3;
 static float greeninc=0.0023/3;
@@ -34,52 +39,28 @@ void loop()
   if (neverun==0){
     if (sensorValue>530){
 
-
-      static float redin = 4.712;
-      float redout;
-
-      static float greenin = 4.712;
-      float greenout;
-
-      static float bluein = 4.712;
-      float blueout;
+      //Read analogue
+      int redread = analogRead(redin) / 2;
+      int blueread  = analogRead(bluein)/2;
+      int greenread = analogRead(greenin)/2;
 
       static float brightin = 4.712;
       float brightout;
 
       // do input, etc. here - as long as you don't pause, the LED will keep pulsing
 
-      brightin = brightin + brightinc;
-      if (brightin > 10.995)
-        brightin = 4.712;
-      brightout = (sin(brightin) +1)/2;
-      brightout=brightout*1;   //BRIGHTNESS ADJUSTMENT
+//      brightin = brightin + brightinc;
+//      if (brightin > 10.995)
+//        brightin = 4.712;
+//      brightout = (sin(brightin) +1)/2;
+//      brightout=brightout*1;   //BRIGHTNESS ADJUSTMENT
       //analogWrite(bright,brightout);
 
+      analogWrite(red,redread);
 
-      redin = redin + redinc;
-      if (redin > 10.995)
-        redin = 4.712;
-      redout = (sin(redin) +1)/2;
-      redout = redout *brightout;
-      redout = redout * 255 ;
-      analogWrite(red,redout);
+      analogWrite(green,greenread);
 
-      greenin = greenin + greeninc;
-      if (greenin > 10.995)
-        greenin = 4.712;
-      greenout = (sin(greenin) +1)/2;
-      greenout = greenout *brightout;
-      greenout = greenout * 255 ;
-      analogWrite(green,greenout);
-
-      bluein = bluein + blueinc;
-      if (bluein > 10.995)
-        bluein = 4.712;
-      blueout = (sin(bluein) +1)/2;
-      blueout=blueout*brightout;
-      blueout=blueout * 255 ;
-      analogWrite(blue,blueout);
+      analogWrite(blue,blueread);
     }
     else{
       analogWrite(blue,0);
@@ -120,76 +101,4 @@ int smooth(int x){
   average = total / numReadings;
   // send it to the computer as ASCII digits
   return x;
-}
-
-int blue = 9;    // LED connected to digital pin 9
-int red =10;
-int green =11;
-
-static float redinc=0.001;
-static float greeninc=0.001;
-static float blueinc=0.001;
-static float brightinc=0.001;
-
-
-void setup()  {
-  // nothing happens in setup
- analogWrite(red,0);
-analogWrite(blue,0);
-analogWrite(green,0);
-}
-
-void loop()
-{
-  static float redin = 4.712;
-  float redout;
-
-  static float greenin = 4.712;
-  float greenout;
-
-   static float bluein = 4.712;
-  float blueout;
-
-   static float brightin = 4.712;
-  float brightout;
-
- // do input, etc. here - as long as you don't pause, the LED will keep pulsing
-
-    brightin = brightin + brightinc;
-  if (brightin > 10.995)
-    brightin = 4.712;
-  brightout = sin(brightin) * 127.5;
-  //analogWrite(bright,brightout);
-
-
-  redin = redin + redinc;
-  if (redin > 10.995)
-    redin = 4.712;
-  redout = sin(redin);
-    redout=1;
-    redout = redout * 127.5 +brightout;
-  redout = redout ;
-
-  analogWrite(red,redout);
-
-  greenin = greenin + greeninc;
-  if (greenin > 10.995)
-    greenin = 4.712;
-  greenout = sin(greenin);
-    greenout=1;
-    greenout = greenout * 127.5 + brightout;
-  greenout = greenout ;
-
-  analogWrite(green,greenout);
-
-  bluein = bluein + blueinc;
-  if (bluein > 10.995)
-    bluein = 4.712;
-  blueout = sin(bluein);
-  blueout=1;
-  blueout=blueout * 127.5 + brightout;
-  blueout=blueout ;
-  analogWrite(blue,blueout);
-
-
 }
